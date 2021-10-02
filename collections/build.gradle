@@ -10,9 +10,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation("com.google.guava:guava:31.0.1-jre")
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.assertj:assertj-core:3.21.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 test {
