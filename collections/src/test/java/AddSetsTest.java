@@ -21,39 +21,28 @@ class AddSetsTest {
         @Test
         void addSets_1() {
             final Set<String> actual = AddSets.addSets_1(set1, set2);
-            assertThat(actual).hasSize(5)
-                    .contains("e1")
-                    .contains("e2")
-                    .contains("e3")
-                    .contains("e4")
-                    .contains("e5");
+            assertResult(actual);
         }
 
         @Test
         void addSets_2() {
             final Set<String> actual = AddSets.addSets_2(set1, set2);
-            assertThat(actual).hasSize(5)
-                    .contains("e1")
-                    .contains("e2")
-                    .contains("e3")
-                    .contains("e4")
-                    .contains("e5");
+            assertResult(actual);
         }
 
         @Test
         void addSets_3() {
             final Set<String> actual = AddSets.addSets_3(set1, set2);
-            assertThat(actual).hasSize(5)
-                    .contains("e1")
-                    .contains("e2")
-                    .contains("e3")
-                    .contains("e4")
-                    .contains("e5");
+            assertResult(actual);
         }
 
         @Test
         void addSets_4() {
             final Set<String> actual = AddSets.addSets_4(set1, set2);
+            assertResult(actual);
+        }
+
+        private void assertResult(Set<String> actual) {
             assertThat(actual).hasSize(5)
                     .contains("e1")
                     .contains("e2")
