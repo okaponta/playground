@@ -2,6 +2,7 @@ import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -59,6 +60,11 @@ class AddSetsTest {
         long addSet2 = 0;
         long addSet3 = 0;
         long addSet4 = 0;
+        long[] onlyNewTimes = new long[1000];
+        long[] addSet1Times = new long[1000];
+        long[] addSet2Times = new long[1000];
+        long[] addSet3Times = new long[1000];
+        long[] addSet4Times = new long[1000];
 
         for (int i = 0; i < 1000; i++) {
             Random rnd = new Random();
@@ -70,17 +76,34 @@ class AddSetsTest {
             IntStream.rangeClosed(0, 100)
                     .mapToObj(j -> String.valueOf(rnd.nextInt(1000)))
                     .forEach(set2::add);
-            onlyNew += measureTime(e -> new HashSet<>());
-            addSet1 += measureTime(e -> AddSets.addSets_1(set1, set2));
-            addSet2 += measureTime(e -> AddSets.addSets_2(set1, set2));
-            addSet3 += measureTime(e -> AddSets.addSets_3(set1, set2));
-            addSet4 += measureTime(e -> AddSets.addSets_4(set1, set2));
+            long onlyNewTime = measureTime(e -> new HashSet<>());
+            long addSet1Time = measureTime(e -> AddSets.addSets_1(set1, set2));
+            long addSet2Time = measureTime(e -> AddSets.addSets_2(set1, set2));
+            long addSet3Time = measureTime(e -> AddSets.addSets_3(set1, set2));
+            long addSet4Time = measureTime(e -> AddSets.addSets_4(set1, set2));
+            onlyNew += onlyNewTime;
+            addSet1 += addSet1Time;
+            addSet2 += addSet2Time;
+            addSet3 += addSet3Time;
+            addSet4 += addSet4Time;
+            onlyNewTimes[i] = onlyNewTime;
+            addSet1Times[i] = addSet1Time;
+            addSet2Times[i] = addSet2Time;
+            addSet3Times[i] = addSet3Time;
+            addSet4Times[i] = addSet4Time;
         }
+        System.out.println("Average");
         System.out.println(onlyNew / 1000000 + "ns");
         System.out.println(addSet1 / 1000000 + "ns");
         System.out.println(addSet2 / 1000000 + "ns");
         System.out.println(addSet3 / 1000000 + "ns");
         System.out.println(addSet4 / 1000000 + "ns");
+        System.out.println("Median");
+        System.out.println(calcMedian(onlyNewTimes) / 1000 + "ns");
+        System.out.println(calcMedian(addSet1Times) / 1000 + "ns");
+        System.out.println(calcMedian(addSet2Times) / 1000 + "ns");
+        System.out.println(calcMedian(addSet3Times) / 1000 + "ns");
+        System.out.println(calcMedian(addSet4Times) / 1000 + "ns");
     }
 
     private long measureTime(IntConsumer consumer) {
@@ -89,4 +112,14 @@ class AddSetsTest {
         long toc = System.nanoTime();
         return toc - tic;
     }
+
+    private long calcMedian(long[] arr) {
+        Arrays.sort(arr);
+        int len = arr.length;
+        if (len % 2 == 0) {
+            return (arr[len / 2] + arr[(len / 2) - 1]) / 2;
+        }
+        return arr[(len / 2) - 1];
+    }
+
 }
